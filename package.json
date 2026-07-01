@@ -1,1 +1,18 @@
+{
+  "name": "jira-task-management-playwright",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright Test (TypeScript) automation for Jira Cloud task management",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.46.0",
+    "@types/node": "^20.14.10",
+    "typescript": "^5.5.4"
+  }
+}
 
