@@ -17,8 +17,8 @@ export class LoginPage {
   }
 
   private passwordField() {
-    // Atlassian typically uses input[type=password] with accessible name 'Password'
-    return this.page.getByRole('textbox', { name: /password/i });
+    // Password input can be difficult to match by role across browsers; use type=password.
+    return this.page.locator('input[type="password"]').first();
   }
 
   private loginButton() {
@@ -48,8 +48,9 @@ export class LoginPage {
   }
 
   async submitPasswordOnly(password: string) {
-    await expect(this.passwordField()).toBeVisible();
-    await this.passwordField().fill(password);
+    const pw = this.passwordField();
+    await expect(pw).toBeVisible();
+    await pw.fill(password);
     await this.loginButton().click();
   }
 
@@ -70,6 +71,7 @@ export class LoginPage {
     await this.continueButton().click();
 
     // If browser validation triggers, it won't navigate; email will be invalid.
-    await expect(email).toHaveJSProperty('validationMessage', expect.any(String));
+    const validation = await email.evaluate((el: HTMLInputElement) => el.validationMessage);
+    expect(validation).toBeTruthy();
   }
 }
