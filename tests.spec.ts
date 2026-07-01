@@ -106,11 +106,14 @@ test.describe('Create Task', () => {
     await taskPage.openCreate();
 
     // Fill required selectors except summary
-    await taskPage.createIssue({
-      project: testData.createIssue.project,
-      issueType: testData.createIssue.issueTypeBug,
-      summary: '',
-    });
+    await taskPage.createIssue(
+      {
+        project: testData.createIssue.project,
+        issueType: testData.createIssue.issueTypeBug,
+        summary: '',
+      },
+      { expectSuccess: false }
+    );
 
     // Expected
     await taskPage.assertCreateDialogSummaryRequired();
