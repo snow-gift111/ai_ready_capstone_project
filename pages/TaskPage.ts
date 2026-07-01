@@ -1,5 +1,5 @@
 import { expect, Page } from '@playwright/test';
-import { requireEnv, uniqueSuffix, waitForPageReady } from '../utils/helpers';
+import { requireEnv, waitForPageReady } from '../utils/helpers';
 
 export class TaskPage {
   constructor(private readonly page: Page) {}
