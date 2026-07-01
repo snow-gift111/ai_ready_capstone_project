@@ -22,3 +22,10 @@ export async function expectSignedOut(page: Page): Promise<void> {
 export function uniqueSuffix(): string {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
+
+export async function ensureOnJiraSite(page: Page): Promise<void> {
+  // If we are still on id.atlassian.com after auth, go to APP_URL.
+  if (/id\.atlassian\.com/.test(page.url())) {
+    await page.goto(getAppUrl(), { waitUntil: 'domcontentloaded' });
+  }
+}
