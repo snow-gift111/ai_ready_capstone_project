@@ -8,7 +8,13 @@ export class TaskPage {
     await openCreateIssueDialog(this.page);
   }
 
-  async createIssue(params: { project: string; issueType: string; summary: string; description?: string }): Promise<void> {
+  async createIssue(
+    params: { project: string; issueType: string; summary: string; description?: string },
+    options: {
+      /** When false, do not wait for "created" toast (used for validation tests). */
+      expectSuccess?: boolean;
+    } = { expectSuccess: true }
+  ): Promise<void> {
     // Project
     const projectField = this.page.getByLabel(/^project$/i).or(this.page.getByRole('combobox', { name: /project/i }));
     if (await projectField.isVisible().catch(() => false)) {
