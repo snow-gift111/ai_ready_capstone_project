@@ -5,9 +5,6 @@ export const testData = {
   login: {
     validEmail: process.env.APP_EMAIL,
     validPassword: process.env.APP_PASSWORD,
-    invalidPassword: 'WrongPassword!',
-    anyPassword: 'AnyPassword123!',
-    anyEmail: 'valid.user@example.com',
   },
   issue: {
     create: {
