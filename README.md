@@ -4,4 +4,29 @@
 
 ## Setup
 
-_TBD_
+## Prerequisites
+
+- Node.js 20+
+- Environment variables:
+  - `APP_BASE_URL` (example: `https://<tenant>.atlassian.net`)
+  - `APP_EMAIL`
+  - `APP_PASSWORD`
+  - `APP_EXISTING_ISSUE_KEY` (required for edit/delete/done tests that need an existing issue)
+
+## Install
+
+```bash
+npm install
+npx playwright install --with-deps
+```
+
+## Run tests
+
+```bash
+npm test
+```
+
+## Notes
+
+- Login is implemented **exactly** via `https://id.atlassian.com/login` (email -> continue -> password -> log in), then waits for redirect to `*.atlassian.net`.
+- Tests that require an existing issue are skipped unless `APP_EXISTING_ISSUE_KEY` is provided.
