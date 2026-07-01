@@ -18,7 +18,17 @@ export class LoginPage {
     await this.login(email, password);
   }
 
-  async login(email: string, password: string): Promise<void> {
+  async login(
+    email: string,
+    password: string,
+    options: {
+      /**
+       * For successful auth flows we must wait for redirect to *.atlassian.net.
+       * For negative auth scenarios (invalid creds), set to false.
+       */
+      expectRedirect?: boolean;
+    } = { expectRedirect: true }
+  ): Promise<void> {
     // Atlassian login sequence requirement:
     // Fill Email -> Continue -> wait for password field -> Fill Password -> Log in -> redirect to *.atlassian.net
     const emailField = this.page.getByLabel(/email/i).or(this.page.getByPlaceholder(/email/i));
@@ -32,7 +42,14 @@ export class LoginPage {
     await passwordField.fill(password);
 
     await this.page.getByRole('button', { name: /log in/i }).click();
-    await waitForAtlassianRedirect(this.page);
+
+    if (options.expectRedirect !== false) {
+      await waitForAtlassianRedirect(this.page);
+    }
+  }
+
+  async loginExpectFailure(email: string, password: string): Promise<void> {
+    await this.login(email, password, { expectRedirect: false });
   }
 
   async submitWithoutEmail(password: string): Promise<void> {
