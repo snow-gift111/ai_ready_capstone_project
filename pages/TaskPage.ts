@@ -62,9 +62,11 @@ export class TaskPage {
     await expect(create).toBeEnabled();
     await create.click();
 
-    // Success: issue created toast appears
-    const createdToast = this.page.getByText(/created/i).first();
-    await expect(createdToast).toBeVisible({ timeout: 60_000 });
+    if (options.expectSuccess !== false) {
+      // Success: issue created toast appears
+      const createdToast = this.page.getByText(/created/i).first();
+      await expect(createdToast).toBeVisible({ timeout: 60_000 });
+    }
   }
 
   async assertCreateDialogSummaryRequired(): Promise<void> {
