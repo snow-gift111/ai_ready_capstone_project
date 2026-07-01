@@ -12,7 +12,7 @@ test.describe('User Authentication', () => {
 
     const loginPage = new LoginPage(page);
 
-    await loginPage.login(testData.login.validEmail ?? undefined, testData.login.validPassword ?? undefined);
+    await loginPage.login();
 
     await expect(page).toHaveURL(/https:\/\/.*\.atlassian\.net\/.+/);
   });
@@ -23,7 +23,9 @@ test.describe('User Authentication', () => {
 
     const loginPage = new LoginPage(page);
 
-    await loginPage.login(testData.login.validEmail ?? undefined, 'WrongPassword!');
+    await loginPage.goto();
+    await loginPage.submitEmailOnly(requireEnv('APP_EMAIL'));
+    await loginPage.submitPasswordOnly('WrongPassword!');
 
     await loginPage.expectInvalidCredentialsError();
     await expect(page).toHaveURL(/id\.atlassian\.com\/login/);
@@ -44,7 +46,7 @@ test.describe('User Authentication', () => {
 
     const loginPage = new LoginPage(page);
 
-    await loginPage.submitEmailOnly(testData.login.validEmail ?? requireEnv('APP_EMAIL'));
+    await loginPage.submitEmailOnly(requireEnv('APP_EMAIL'));
     // Leave password empty
     await loginPage.submitPasswordOnly('');
 
