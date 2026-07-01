@@ -67,17 +67,19 @@ export class LoginPage {
     await this.passwordInput().fill('');
     await this.loginButton().click();
   }
-
+    const error = this.page.getByText(
+      /incorrect|invalid|wrong|couldn\'t log you in|unable to log in|email address and\/?or password/i
+    );
   async expectInvalidCredentialsError(): Promise<void> {
     const error = this.page.getByText(/incorrect|invalid|wrong|couldn\'t log you in|unable to log in/i);
     await expect(error).toBeVisible();
   }
-
+    const error = this.page.getByText(/enter your email|email.*required|required.*email/i);
   async expectEmailRequiredValidation(): Promise<void> {
     const error = this.page.getByText(/email.*required|required.*email/i);
     await expect(error).toBeVisible();
   }
-
+    const error = this.page.getByText(/enter your password|password.*required|required.*password/i);
   async expectPasswordRequiredValidation(): Promise<void> {
     const error = this.page.getByText(/password.*required|required.*password/i);
     await expect(error).toBeVisible();
