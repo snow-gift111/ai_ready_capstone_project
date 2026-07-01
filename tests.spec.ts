@@ -38,7 +38,7 @@ test.describe('User Authentication', () => {
     await loginPage.goto();
 
     // Steps: enter invalid email + invalid password and submit
-    await loginPage.login(testData.auth.invalidEmail, testData.auth.invalidPassword);
+    await loginPage.loginExpectFailure(testData.auth.invalidEmail, testData.auth.invalidPassword);
 
     // Expected: error message + not authenticated
     await loginPage.assertInvalidCredentialsError();
