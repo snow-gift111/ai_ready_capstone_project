@@ -105,11 +105,12 @@ test.describe('Create Task', () => {
   test('Create a new Jira issue with summary, issue type, description, and project', async ({ page }) => {
     await loginValidUser(page);
 
+    const project = await ensureEnv('APP_PROJECT');
     const taskPage = new TaskPage(page);
     const summary = uniqueSummary(testData.issue.summaryCreate);
 
-      project: await ensureEnv('APP_PROJECT'),
-      project: testData.issue.project,
+    const key = await taskPage.createIssueAndGetKey({
+      project,
       issueType: testData.issue.issueTypeTask,
       summary,
       description: testData.issue.descriptionCreate
@@ -126,15 +127,16 @@ test.describe('Create Task', () => {
   test('Show validation error when creating an issue with empty summary', async ({ page }) => {
     await loginValidUser(page);
 
+    const project = await ensureEnv('APP_PROJECT');
     const taskPage = new TaskPage(page);
     await taskPage.openCreateIssue();
 
-    await taskPage.selectDropdownByTyping(taskPage.projectField(), testData.issue.project);
+    await taskPage.selectDropdownByTyping(taskPage.projectField(), project);
     await taskPage.selectDropdownByTyping(taskPage.issueTypeField(), testData.issue.issueTypeBug);
 
-    // Leave summary empty
+    // Leave summary empty.
     await taskPage.summaryField().fill('');
-    await taskPage.selectDropdownByTyping(taskPage.projectField(), await ensureEnv('APP_PROJECT'));
+    await taskPage.createSubmitButton().click();
 
     // Assertions
     await expect(page.getByText(/summary.*required|required/i)).toBeVisible({ timeout: 10_000 });
