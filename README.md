@@ -2,6 +2,8 @@
 
 Production-ready Playwright + TypeScript automation framework generated from approved test cases.
 
+Generated on: 2026-07-07
+
 ## Prerequisites
 
 - Node.js 20+
