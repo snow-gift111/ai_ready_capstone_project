@@ -107,7 +107,7 @@ test.describe('Create Task', () => {
     const taskPage = new TaskPage(page);
     const summary = uniqueSummary(testData.issue.summaryCreate);
 
-    const key = await taskPage.createIssueAndGetKey({
+      project: await ensureEnv('APP_PROJECT'),
       project: testData.issue.project,
       issueType: testData.issue.issueTypeTask,
       summary,
@@ -133,7 +133,7 @@ test.describe('Create Task', () => {
 
     // Leave summary empty
     await taskPage.summaryField().fill('');
-    await taskPage.createSubmitButton().click();
+    await taskPage.selectDropdownByTyping(taskPage.projectField(), await ensureEnv('APP_PROJECT'));
 
     // Assertions
     await expect(page.getByText(/summary.*required|required/i)).toBeVisible({ timeout: 10_000 });
@@ -150,7 +150,7 @@ test.describe('Edit Task', () => {
     // Create a fresh issue to edit to avoid environment dependencies.
     const summary = uniqueSummary('Edit target');
     const key = await taskPage.createIssueAndGetKey({
-      project: testData.issue.project,
+      project: await ensureEnv('APP_PROJECT'),
       issueType: testData.issue.issueTypeTask,
       summary,
       description: testData.issue.descriptionCreate
@@ -179,7 +179,7 @@ test.describe('Edit Task', () => {
 
     const summary = uniqueSummary('Cancel edit target');
     const key = await taskPage.createIssueAndGetKey({
-      project: testData.issue.project,
+      project: await ensureEnv('APP_PROJECT'),
       issueType: testData.issue.issueTypeTask,
       summary,
       description: testData.issue.descriptionCreate
@@ -204,7 +204,7 @@ test.describe('Delete Task', () => {
 
     const summary = uniqueSummary('Delete target');
     const key = await taskPage.createIssueAndGetKey({
-      project: testData.issue.project,
+      project: await ensureEnv('APP_PROJECT'),
       issueType: testData.issue.issueTypeTask,
       summary,
       description: testData.issue.descriptionCreate
@@ -227,7 +227,7 @@ test.describe('Delete Task', () => {
 
     const summary = uniqueSummary('Cancel delete target');
     const key = await taskPage.createIssueAndGetKey({
-      project: testData.issue.project,
+      project: await ensureEnv('APP_PROJECT'),
       issueType: testData.issue.issueTypeTask,
       summary,
       description: testData.issue.descriptionCreate
@@ -251,7 +251,7 @@ test.describe('Mark Task as Completed', () => {
 
     const summary = uniqueSummary('Done target');
     const key = await taskPage.createIssueAndGetKey({
-      project: testData.issue.project,
+      project: await ensureEnv('APP_PROJECT'),
       issueType: testData.issue.issueTypeTask,
       summary,
       description: testData.issue.descriptionCreate
