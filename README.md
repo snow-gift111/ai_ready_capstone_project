@@ -43,3 +43,7 @@ npm run test:headed
 - Login flow follows Atlassian ID login at `https://id.atlassian.com/login` (email → continue → password → log in).
 - Tests that require an existing issue create one on the fly to stay isolated.
 - If your Jira UI differs (company-managed vs team-managed projects), you may need to adjust a few selectors in `pages/TaskPage.ts`.
+
+## CI
+
+GitHub Actions workflow: **Playwright Tests** (`.github/workflows/playwright.yml`).
