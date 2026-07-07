@@ -34,8 +34,6 @@ test.describe('User Authentication', () => {
   });
 
   test('Show error message for invalid login credentials', async ({ page }) => {
-    await gotoApp(page);
-
     const email = await ensureEnv('APP_EMAIL');
     const loginPage = new LoginPage(page);
 
@@ -53,8 +51,6 @@ test.describe('User Authentication', () => {
   });
 
   test('Validate email field is not empty on login', async ({ page }) => {
-    await gotoApp(page);
-
     const loginPage = new LoginPage(page);
     await loginPage.goto();
 
@@ -68,8 +64,6 @@ test.describe('User Authentication', () => {
   });
 
   test('Validate password field is not empty on login', async ({ page }) => {
-    await gotoApp(page);
-
     const email = await ensureEnv('APP_EMAIL');
     const loginPage = new LoginPage(page);
 
