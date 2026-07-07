@@ -21,9 +21,6 @@ async function gotoApp(page: Page) {
 
 test.describe('User Authentication', () => {
   test('Log in successfully with valid Atlassian email and password', async ({ page }) => {
-    // Navigate to the application URL.
-    await gotoApp(page);
-
     // Enter valid credentials using Atlassian ID login flow.
     const email = await ensureEnv('APP_EMAIL');
     const password = await ensureEnv('APP_PASSWORD');
