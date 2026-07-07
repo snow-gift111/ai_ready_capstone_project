@@ -6,14 +6,14 @@ import { ensureEnv, uniqueSummary } from './utils/helpers';
 
 // NOTE: Exactly one test() per provided test case.
 
-async function loginValidUser(page) {
+async function loginValidUser(page: import('@playwright/test').Page) {
   const email = await ensureEnv('APP_EMAIL');
   const password = await ensureEnv('APP_PASSWORD');
   const loginPage = new LoginPage(page);
   await loginPage.login(email, password);
 }
 
-async function gotoApp(page) {
+async function gotoApp(page: import('@playwright/test').Page) {
   const appUrl = await ensureEnv('APP_URL');
   await page.goto(appUrl, { waitUntil: 'domcontentloaded' });
 }
