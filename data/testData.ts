@@ -7,7 +7,8 @@ export const testData = {
     validPassword: process.env.APP_PASSWORD || ''
   },
   issue: {
-    project: 'Sample Project',
+    // Project name must not be hardcoded; provide via env.
+    project: process.env.APP_PROJECT || '',
     issueTypeTask: 'Task',
     issueTypeBug: 'Bug',
     issueTypeStory: 'Story',
