@@ -21,10 +21,11 @@ test.describe('User Authentication', () => {
     const loginPage = new LoginPage(page);
 
     await loginPage.gotoAtlassianLogin();
+    const email = await ensureEnv('APP_EMAIL');
     await page.getByLabel(/email/i).fill(testData.jira.email || (process.env.APP_EMAIL ?? ''));
     await page.getByRole('button', { name: /continue/i }).click();
     await page.getByLabel(/password/i).waitFor({ state: 'visible', timeout: 30_000 });
-    await page.getByLabel(/password/i).fill(testData.auth.invalidPassword);
+    await page.getByLabel(/email/i).fill(email);
     await page.getByRole('button', { name: /^log in$/i }).click();
 
     await loginPage.expectInvalidCredentialsError();
@@ -52,7 +53,8 @@ test.describe('User Authentication', () => {
 
     // Leave password empty
     await page.getByRole('button', { name: /^log in$/i }).click();
-
+    const email = await ensureEnv('APP_EMAIL');
+    await page.getByLabel(/email/i).fill(email);
     await expect(page.getByText(/enter your password|password is required|required/i).first()).toBeVisible({ timeout: 10_000 });
   });
 
