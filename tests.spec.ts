@@ -5,7 +5,7 @@ import { TaskPage } from './pages/TaskPage';
 import { ensureEnv, uniqueSummary } from './utils/helpers';
 import type { Page } from '@playwright/test';
 
-// NOTE: Exactly one Playwright test() per provided test case.
+// NOTE: Exactly one Playwright test per provided test case.
 
 async function loginValidUser(page: Page) {
   const email = await ensureEnv('APP_EMAIL');
