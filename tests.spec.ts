@@ -46,7 +46,8 @@ test.describe('User Authentication', () => {
     await loginPage.emailInput.fill(email);
     await loginPage.continueButton.click();
     await expect(loginPage.passwordInput).toBeVisible({ timeout: 30_000 });
-    await loginPage.passwordInput.fill('WrongPassword!');
+    const validPassword = await ensureEnv('APP_PASSWORD');
+    await loginPage.passwordInput.fill(`${validPassword}__invalid`);
     await loginPage.loginButton.click();
 
     // Assertions - error message displayed, user not redirected to *.atlassian.net
