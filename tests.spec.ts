@@ -79,7 +79,7 @@ test.describe('Create Task', () => {
     await taskPage.gotoHome();
 
     await taskPage.openCreateIssue();
-    const projectToUse = testData.jira.projectName ?? testData.issues?.create?.['project'];
+    const projectToUse = testData.jira.projectName;
     if (projectToUse) {
       await taskPage.selectProject(projectToUse);
     }
