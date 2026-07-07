@@ -14,10 +14,7 @@ async function loginValidUser(page: Page) {
   await loginPage.login(email, password);
 }
 
-async function gotoApp(_page: Page) {
-  // Atlassian login always starts at https://id.atlassian.com/login
-  // baseURL is used after authentication for relative navigations.
-}
+
 
 test.describe('User Authentication', () => {
   test('Log in successfully with valid Atlassian email and password', async ({ page }) => {
