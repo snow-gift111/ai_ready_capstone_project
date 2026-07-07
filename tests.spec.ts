@@ -3,17 +3,18 @@ import { testData } from './data/testData';
 import { LoginPage } from './pages/LoginPage';
 import { TaskPage } from './pages/TaskPage';
 import { ensureEnv, uniqueSummary } from './utils/helpers';
+import type { Page } from '@playwright/test';
 
 // NOTE: Exactly one test() per provided test case.
 
-async function loginValidUser(page: import('@playwright/test').Page) {
+async function loginValidUser(page: Page) {
   const email = await ensureEnv('APP_EMAIL');
   const password = await ensureEnv('APP_PASSWORD');
   const loginPage = new LoginPage(page);
   await loginPage.login(email, password);
 }
 
-async function gotoApp(page: import('@playwright/test').Page) {
+async function gotoApp(page: Page) {
   const appUrl = await ensureEnv('APP_URL');
   await page.goto(appUrl, { waitUntil: 'domcontentloaded' });
 }
