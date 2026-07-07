@@ -11,6 +11,7 @@ Create a `.env` file (or set GitHub Secrets) with:
 - `APP_URL`
 - `APP_EMAIL`
 - `APP_PASSWORD`
+- `APP_PROJECT` (Jira project name visible in the Create issue dialog)
 
 ## Install
 ```bash
