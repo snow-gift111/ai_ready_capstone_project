@@ -2,6 +2,8 @@
 
 > Generated Playwright + TypeScript automation framework (POM).
 
+Generated on: 2026-07-07
+
 ## Prerequisites
 
 - Node.js 20+
