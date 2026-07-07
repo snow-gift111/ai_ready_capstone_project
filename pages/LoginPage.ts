@@ -33,5 +33,12 @@ export class LoginPage {
     await this.passwordInput.fill(password);
     await this.loginButton.click();
     await waitForAtlassianRedirect(this.page);
+
+    const appUrl = await ensureEnv('APP_URL');
+    await expect(this.page).toHaveURL(new RegExp(`^${escapeRegExp(appUrl)}`, 'i'), { timeout: 60_000 });
   }
+}
+
+function escapeRegExp(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
