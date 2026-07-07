@@ -76,6 +76,28 @@ export class TaskPage {
     await expect(createdToast).toBeVisible({ timeout: 30_000 });
   }
 
+  async createIssueAndGetKey(params: {
+    project: string;
+    issueType: string;
+    summary: string;
+    description?: string;
+  }): Promise<string> {
+    await this.createIssue(params);
+
+    // Jira toast typically contains issue key as a link (e.g., ABC-123)
+    const issueKeyLink = this.page.getByRole('link', { name: /[A-Z][A-Z0-9]+-\d+/ }).first();
+    await expect(issueKeyLink).toBeVisible({ timeout: 30_000 });
+    const key = (await issueKeyLink.textContent())?.trim();
+    expect(key, 'Issue key not found in create confirmation').toBeTruthy();
+    return key as string;
+  }
+
+  async openIssueByKey(key: string): Promise<void> {
+    await this.page.goto(`/browse/${key}`, { waitUntil: 'domcontentloaded' });
+    await expect(this.page).toHaveURL(new RegExp(`/browse/${escapeRegExp(key)}`, 'i'), { timeout: 30_000 });
+    await expect(this.page.getByRole('heading')).toBeVisible({ timeout: 30_000 });
+  }
+
   async openIssueFromRecentToast(summary: string): Promise<void> {
     // Best-effort: find toast/link containing summary and click.
     const link = this.page.getByRole('link', { name: new RegExp(escapeRegExp(summary), 'i') });
@@ -94,6 +116,16 @@ export class TaskPage {
     return this.page.getByRole('textbox', { name: /summary/i }).or(this.page.getByLabel(/summary/i));
   }
 
+  async getCurrentSummary(): Promise<string> {
+    const heading = this.page
+      .getByTestId('issue.views.issue-base.foundation.summary.heading')
+      .or(this.page.getByRole('heading').first());
+    await expect(heading.first()).toBeVisible({ timeout: 30_000 });
+    const txt = (await heading.first().textContent())?.trim();
+    expect(txt, 'Unable to read current issue summary').toBeTruthy();
+    return txt as string;
+  }
+
   async editSummary(newSummary: string): Promise<void> {
     // Try inline edit by clicking summary heading.
     const summaryHeading = this.page.getByTestId('issue.views.issue-base.foundation.summary.heading').or(
@@ -104,6 +136,17 @@ export class TaskPage {
     await expect(input).toBeVisible({ timeout: 10_000 });
     await input.fill(newSummary);
     await input.press('Enter');
+  }
+
+  async editSummaryAndCancel(unsavedSummary: string): Promise<void> {
+    const summaryHeading = this.page.getByTestId('issue.views.issue-base.foundation.summary.heading').or(
+      this.page.getByRole('heading', { name: /.+/ })
+    );
+    await summaryHeading.first().click();
+    const input = this.page.getByRole('textbox').first();
+    await expect(input).toBeVisible({ timeout: 10_000 });
+    await input.fill(unsavedSummary);
+    await input.press('Escape');
   }
 
   async editDescription(newDescription: string): Promise<void> {
