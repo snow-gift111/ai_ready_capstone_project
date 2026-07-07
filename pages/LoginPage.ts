@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test';
-import { waitForAtlassianRedirect } from '../utils/helpers';
+import { ensureEnv, waitForAtlassianRedirect } from '../utils/helpers';
 
 export class LoginPage {
   readonly page: Page;
