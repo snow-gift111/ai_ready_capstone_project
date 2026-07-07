@@ -26,12 +26,12 @@ test.describe('User Authentication', () => {
   test('Show error message for invalid login credentials', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
-    const email = testData.login.validEmailExample;
+    const { email } = requireCredentials();
     const wrongPassword = testData.login.invalidPasswordExample;
 
     await loginPage.attemptLoginInvalidPassword(email, wrongPassword);
 
-    // Expected: error shown
+    // Expected: an error message is displayed indicating the login credentials are invalid
     await loginPage.assertInvalidCredentialsError();
 
     // Expected: User is not authenticated
@@ -53,9 +53,10 @@ test.describe('User Authentication', () => {
   test('Validate password field is not empty on login', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
-    await loginPage.submitWithEmptyPassword(testData.login.validEmailExample);
+    const { email } = requireCredentials();
+    await loginPage.submitWithEmptyPassword(email);
 
-    // Expected: validation about required password
+    // Expected: a validation message is displayed indicating the password field is required
     await loginPage.assertPasswordRequiredValidation();
 
     // Expected: user remains unauthenticated
