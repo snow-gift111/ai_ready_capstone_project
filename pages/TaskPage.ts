@@ -111,7 +111,7 @@ export class TaskPage {
   }
 
   async submitCreate(): Promise<void> {
-    await safeClick(this.createSubmitButton());
+    const keyFromUrl = this.extractIssueKeyFromUrl();
   }
 
   async waitForCreatedIssueKey(): Promise<string> {
@@ -230,6 +230,12 @@ export class TaskPage {
   }
 
   async confirmDelete(): Promise<void> {
+
+  private extractIssueKeyFromUrl(): string | null {
+    const url = this.page.url();
+    const match = url.match(/\/browse\/(\w+-\d+)/);
+    return match?.[1] ?? null;
+  }
     await safeClick(this.deleteDialog().getByRole('button', { name: /^delete$/i }).or(this.page.getByRole('button', { name: /^delete$/i })));
   }
 
@@ -245,19 +251,6 @@ export class TaskPage {
     ).toBeVisible({ timeout: 30_000 });
   }
 
-  // ---------- Transition status ----------
-  private statusButton(): Locator {
-    return this.page.getByRole('button', { name: /status|to do|in progress|done/i }).or(this.page.getByLabel(/status/i));
-  }
-
-  async transitionToDone(): Promise<void> {
-    // Some Jira projects use a single status button; others use transition buttons.
-    const doneButton = this.page.getByRole('button', { name: /^done$/i }).or(this.page.getByRole('menuitem', { name: /^done$/i }));
-
-    if (await doneButton.isVisible().catch(() => false)) {
-      await safeClick(doneButton);
-    } else {
-      await safeClick(this.statusButton());
       await safeClick(doneButton);
     }
 
