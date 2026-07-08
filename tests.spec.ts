@@ -53,7 +53,16 @@ test.describe('Jira Task Management', () => {
     await waitForJiraApp(page);
 
     // Open profile menu (avatar button) and log out.
-    const profileButton = page.getByRole('button', { name: /account|profile/i }).first().or(page.locator('button[aria-label*="Account"], button[aria-label*="Profile"], button[aria-label*="account"], button[aria-label*="profile"]').first());
+    const profileButton = page
+      .getByRole('button', { name: /account|profile/i })
+      .first()
+      .or(
+        page
+          .locator(
+            'button[aria-label*="Account"], button[aria-label*="Profile"], button[aria-label*="account"], button[aria-label*="profile"], [data-testid="header-profile-menu"]'
+          )
+          .first()
+      );
     await profileButton.click();
 
     await page.getByRole('menuitem', { name: /log out/i }).click();
