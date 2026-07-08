@@ -44,6 +44,9 @@ export class LoginPage {
   }
 
   errorMessage(): Locator {
-    return this.page.getByRole('alert').or(this.page.locator('[data-testid="form-error"]')).or(this.page.locator('text=/incorrect|invalid|required|enter your email|enter your password/i'));
+    return this.page
+      .getByRole('alert')
+      .or(this.page.locator('[data-testid="form-error"]'))
+      .or(this.page.getByText(/incorrect|invalid|required|enter your email|enter your password/i));
   }
 }
