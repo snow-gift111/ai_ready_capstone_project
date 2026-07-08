@@ -33,7 +33,7 @@ export class LoginPage {
   }
 
   async expectRequiredValidation(field: 'Username' | 'Password'): Promise<void> {
-    const group = this.page.locator('.oxd-input-group').filter({ hasText: field });
+    const group = this.page.locator(`.oxd-input-group:has(label:has-text("${field}"))`);
     await expect(group.locator('span.oxd-input-field-error-message')).toContainText('Required');
   }
 }
