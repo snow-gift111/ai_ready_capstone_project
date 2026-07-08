@@ -28,7 +28,7 @@ export class LoginPage {
 
   loginButton(): Locator {
     // Atlassian uses "Log in" in the password step.
-    return this.page.getByRole('button', { name: /log in|continue/i });
+    return this.page.getByRole('button', { name: /^log in$/i }).or(this.page.getByRole('button', { name: /^continue$/i }));
   }
 
   async submitPassword(password: string): Promise<void> {
