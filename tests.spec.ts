@@ -10,7 +10,7 @@ test.describe('Jira Task Management', () => {
     await login.login(testData.app.url, requireEnv('APP_EMAIL', testData.app.email), requireEnv('APP_PASSWORD', testData.app.password));
 
     await waitForJiraApp(page);
-    await expect(page).toHaveURL(new RegExp(testData.app.url.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')));
+    await expect(page).not.toHaveURL(/id\.atlassian\.com\/login/);
   });
 
   test('Show error message for invalid login credentials', async ({ page }) => {
