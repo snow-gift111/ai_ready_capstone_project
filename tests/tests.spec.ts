@@ -37,7 +37,6 @@ test.describe('OrangeHRM Demo - Approved Test Cases', () => {
     await employeePage.gotoEmployeeList();
     await employeePage.resetButton.click();
     await employeePage.searchByEmployeeName(`${firstName} ${lastName}`);
-    // Name search can be flaky due to autocomplete; assert that at least request completes.
 
     // Search by ID and open record
     await employeePage.resetButton.click();
@@ -147,15 +146,18 @@ test.describe('OrangeHRM Demo - Approved Test Cases', () => {
     await employeePage.gotoEmployeeList();
     await employeePage.openFirstSearchResultForEdit();
 
-    // Capture original middle name, modify but do not save; navigate away.
+    // Capture original middle name and employee id.
     const originalMiddle = await employeePage.middleNameInput.inputValue();
-    await employeePage.middleNameInput.fill(testData.existingEmployee.unsavedValue);
+    const employeeId = await employeePage.getEmployeeIdFromPersonalDetails();
 
-    // Navigate away without saving
+    // Modify but do not save; navigate away.
+    await employeePage.middleNameInput.fill(testData.existingEmployee.unsavedValue);
     await employeePage.gotoEmployeeList();
 
-    // Re-open same employee: use id from Personal Details by grabbing Employee Id
-    // Note: We need to open first row again and confirm middle name is not the unsaved value.
+    // Re-open the same employee by searching with employee id.
+    await employeePage.resetButton.click();
+    await employeePage.searchByEmployeeId(employeeId);
+    await expect(employeePage.tableRows).toHaveCount(1);
     await employeePage.openFirstSearchResultForEdit();
 
     await expect(employeePage.middleNameInput).not.toHaveValue(testData.existingEmployee.unsavedValue);
