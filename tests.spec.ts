@@ -237,8 +237,11 @@ test.describe('Jira Task Management', () => {
     // Navigate to issue search view using JQL.
     await page.goto(`${testData.app.url}/issues/?jql=status%20%3D%20Done`, { waitUntil: 'domcontentloaded' });
 
-    // Basic assertions: results show Done and do not show other common statuses.
-    await expect(page.getByText(/done/i).first()).toBeVisible();
-    await expect(page.getByText(/to do|in progress/i)).toHaveCount(0);
+    // Basic assertions: results show Done and do not show other common statuses in the status column/pills.
+    const statusCell = page.getByRole('cell', { name: /^done$/i }).first().or(page.getByText(/^done$/i).first());
+    await expect(statusCell).toBeVisible();
+
+    const nonDoneStatus = page.getByRole('cell', { name: /to do|in progress/i }).or(page.getByText(/to do|in progress/i));
+    await expect(nonDoneStatus).toHaveCount(0);
   });
 });
