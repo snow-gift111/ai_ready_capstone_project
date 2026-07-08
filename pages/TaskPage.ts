@@ -57,7 +57,7 @@ export class TaskPage {
 
   async openIssueByKey(baseUrl: string, issueKey: string): Promise<void> {
     await this.page.goto(`${baseUrl}/browse/${issueKey}`, { waitUntil: 'domcontentloaded' });
-    await expect(this.page).toHaveURL(new RegExp(`/browse/${issueKey}$`));
+    await expect(this.page).toHaveURL(new RegExp(`/browse/${issueKey}(/|$)`));
   }
 
   async openEditDialog(): Promise<void> {
