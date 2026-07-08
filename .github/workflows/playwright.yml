@@ -10,6 +10,15 @@ jobs:
   playwright:
     runs-on: ubuntu-latest
 
+    env:
+      APP_URL: ${{ secrets.APP_URL }}
+      APP_EMAIL: ${{ secrets.APP_EMAIL }}
+      APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
+      APP_PROJECT_NAME: ${{ secrets.APP_PROJECT_NAME }}
+      APP_EXISTING_ISSUE_KEY: ${{ secrets.APP_EXISTING_ISSUE_KEY }}
+      JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+      JIRA_PASSWORD: ${{ secrets.JIRA_PASSWORD }}
+
     steps:
       - uses: actions/checkout@v4
 
