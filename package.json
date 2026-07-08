@@ -1,1 +1,16 @@
-
+{
+  "name": "ai_ready_capstone_project",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.1",
+    "@types/node": "^22.15.21",
+    "dotenv": "^16.5.0",
+    "typescript": "^5.8.3"
+  }
+}
