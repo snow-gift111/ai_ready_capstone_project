@@ -100,7 +100,20 @@ export class EmployeePage {
   }
 
   async searchByEmployeeName(name: string): Promise<void> {
-    await this.employeeNameSearchInput.fill(name);
+    // Employee Name uses an autocomplete. Prefer selecting an option when available.
+    await this.employeeNameSearchInput.fill('');
+    await this.employeeNameSearchInput.type(name, { delay: 30 });
+
+    const dropdownOption = this.page
+      .locator('.oxd-autocomplete-dropdown')
+      .locator('.oxd-autocomplete-option')
+      .filter({ hasText: name })
+      .first();
+
+    if (await dropdownOption.count()) {
+      await dropdownOption.click();
+    }
+
     await this.searchButton.click();
     await this.page.waitForTimeout(500);
   }
@@ -109,6 +122,15 @@ export class EmployeePage {
     await expect(this.tableRows.first()).toBeVisible();
     await this.tableRows.first().locator('button:has(i.bi-pencil-fill)').click();
     await expect(this.page).toHaveURL(/\/pim\/viewPersonalDetails/);
+    await expect(this.page.getByRole('heading', { name: 'Personal Details' })).toBeVisible();
+  }
+
+  async getEmployeeIdFromPersonalDetails(): Promise<string> {
+    // Works on the Personal Details page.
+    const idInput = this.page.locator('div.oxd-input-group:has(label:has-text("Employee Id")) input');
+    const id = await idInput.inputValue();
+    expect(id).toBeTruthy();
+    return id;
   }
 
   async deleteFirstSearchResultAndConfirm(confirm: boolean): Promise<void> {
