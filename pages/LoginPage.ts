@@ -22,7 +22,8 @@ export class LoginPage {
   }
 
   passwordInput(): Locator {
-    return this.page.getByRole('textbox', { name: /password/i });
+    // Atlassian password input is typically type="password" without an ARIA role textbox.
+    return this.page.getByLabel(/password/i).or(this.page.locator('input[type="password"]'));
   }
 
   loginButton(): Locator {
